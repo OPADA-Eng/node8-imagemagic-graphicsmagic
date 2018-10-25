@@ -5,9 +5,13 @@ RUN apt-get install imagemagick librsvg2-dev librsvg2-bin -y
 RUN apt-get install graphicsmagick -y
 RUN apt-get install wget -y
 RUN apt-get install curl -y
+RUN apt-get install git -y
 RUN apt-get install build-essential chrpath libssl-dev libxft-dev -y
 RUN apt-get install libfreetype6 libfreetype6-dev -y
-RUN apt-get install libfontconfig1 libfontconfig1-dev -y
+RUN apt-get install libfontconfig1 libfontconfig1-dev -y \ 
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    apt-get autoremove -y 
 RUN curl -o- -L https://yarnpkg.com/install.sh > /usr/local/bin/yarn-installer.sh
 
 # Install node.js
@@ -23,6 +27,7 @@ ENV YARN_VERSION=1.3.2
 RUN /bin/bash -c ". ~/.nvm/nvm.sh && \
          nvm install 8 && nvm use 8 && npm install -g sm grunt-cli bower elm@$ELM_VERSION && \
              bash /usr/local/bin/yarn-installer.sh --version $YARN_VERSION && \
-         nvm alias default node && nvm cache clear"
+         nvm alias default node && nvm cache clear" \ 
+         
 
 USER root
