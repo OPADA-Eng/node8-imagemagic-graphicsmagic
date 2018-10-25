@@ -15,7 +15,6 @@ RUN apt-get clean && \
 RUN curl -o- -L https://yarnpkg.com/install.sh > /usr/local/bin/yarn-installer.sh
 
 # Install node.js
-USER buildbot
 RUN git clone https://github.com/creationix/nvm.git ~/.nvm && \
     cd ~/.nvm && \
     git checkout v0.33.4 && \
