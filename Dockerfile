@@ -8,8 +8,8 @@ RUN apt-get install curl -y
 RUN apt-get install git -y
 RUN apt-get install build-essential chrpath libssl-dev libxft-dev -y
 RUN apt-get install libfreetype6 libfreetype6-dev -y
-RUN apt-get install libfontconfig1 libfontconfig1-dev -y \ 
-    apt-get clean && \
+RUN apt-get install libfontconfig1 libfontconfig1-dev -y 
+RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     apt-get autoremove -y 
 RUN curl -o- -L https://yarnpkg.com/install.sh > /usr/local/bin/yarn-installer.sh
