@@ -12,21 +12,34 @@ RUN apt-get install libfontconfig1 libfontconfig1-dev -y
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     apt-get autoremove -y 
-RUN curl -o- -L https://yarnpkg.com/install.sh > /usr/local/bin/yarn-installer.sh
 
-# Install node.js
-RUN git clone https://github.com/creationix/nvm.git ~/.nvm && \
-    cd ~/.nvm && \
-    git checkout v0.33.4 && \
-    cd /
+# replace shell with bash so we can source files
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
-ENV ELM_VERSION=0.17.1
-ENV YARN_VERSION=1.3.2
+# update the repository sources list
+# and install dependencies
+RUN apt-get update \
+    && apt-get install -y curl \
+    && apt-get -y autoclean
 
-RUN /bin/bash -c ". ~/.nvm/nvm.sh && \
-         nvm install 8 && nvm use 8 && npm install -g sm grunt-cli bower elm@$ELM_VERSION && \
-             bash /usr/local/bin/yarn-installer.sh --version $YARN_VERSION && \
-         nvm alias default node && nvm cache clear" \ 
-         
+# nvm environment variables
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION 4.4.7
 
-USER root
+# install nvm
+# https://github.com/creationix/nvm#install-script
+RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
+
+# install node and npm
+RUN source $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm alias default $NODE_VERSION \
+    && nvm use default
+
+# add node and npm to path so the commands are available
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+# confirm installation
+RUN node -v
+RUN npm -v
