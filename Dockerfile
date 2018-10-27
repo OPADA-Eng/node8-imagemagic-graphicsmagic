@@ -17,15 +17,6 @@ RUN apt-get -qq update
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
 RUN apt-get install -y nodejs
 
-# Set the working directory to /app
-WORKDIR /app
-
-# Copy the current directory contents into the container
-ADD . /app
-
-# Install any needed packages specified in requirements.txt
-RUN npm install
-
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     apt-get autoremove -y 
