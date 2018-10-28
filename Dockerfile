@@ -15,9 +15,9 @@ RUN apt-get install libfontconfig1 libfontconfig1-dev -y
 # Install all Google Web Fonts
 # dependancies: fonts-cantarell, ttf-ubuntu-font-family, git
 RUN apt-get install fonts-cantarell, ttf-ubuntu-font-family, git
-srcdir="/tmp/google-fonts"
-pkgdir="/usr/share/fonts/truetype/google-fonts"
-giturl="git://github.com/google/fonts.git"
+ENV srcdir "/tmp/google-fonts"
+ENV pkgdir "/usr/share/fonts/truetype/google-fonts"
+ENV giturl "git://github.com/google/fonts.git"
 
 RUN mkdir $srcdir
 RUN cd $srcdir
