@@ -13,11 +13,31 @@ RUN apt-get install libjpeg-dev -y
 RUN apt-get install libfontconfig1 libfontconfig1-dev -y 
 
 # Install all Google Web Fonts
-RUN apt-get install -y mercurial fontconfig
-RUN hg clone https://googlefontdirectory.googlecode.com/hg/ fonts
-RUN mkdir -p /usr/share/fonts/truetype/google-fonts/
-RUN find $PWD/fonts/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \; || return 1
-RUN fc-cache -f -v
+# dependancies: fonts-cantarell, ttf-ubuntu-font-family, git
+RUN apt-get install fonts-cantarell, ttf-ubuntu-font-family, git
+srcdir="/tmp/google-fonts"
+pkgdir="/usr/share/fonts/truetype/google-fonts"
+giturl="git://github.com/google/fonts.git"
+
+RUN mkdir $srcdir
+RUN cd $srcdir
+RUN echo "Cloning Git repository..."
+RUN git clone $giturl
+
+RUN echo "Installing fonts..."
+RUN mkdir -p $pkgdir
+RUN find $srcdir -type f -name "*.ttf" -exec install -Dm644 {} $pkgdir \;
+
+RUN echo "Cleaning up..."
+RUN find $pkgdir -type f -name "Cantarell-*.tff" -delete \;
+RUN find $pkgdir -type f -name "Ubuntu-*.tff" -delete \;
+
+# provides roboto
+RUN apt-get --purge remove fonts-roboto
+
+RUN echo "Updating font-cache..."
+RUN fc-cache -f > /dev/null
+
 
 ENV NODE_VERSION 8.12.0
 # Install Node.js 8 and npm 5
