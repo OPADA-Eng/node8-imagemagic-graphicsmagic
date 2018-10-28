@@ -12,6 +12,13 @@ RUN apt-get install libfreetype6 libfreetype6-dev -y
 RUN apt-get install libjpeg-dev -y
 RUN apt-get install libfontconfig1 libfontconfig1-dev -y 
 
+# Install all Google Web Fonts
+RUN apt-get install -y mercurial fontconfig
+RUN hg clone https://googlefontdirectory.googlecode.com/hg/ fonts
+RUN mkdir -p /usr/share/fonts/truetype/google-fonts/
+RUN find $PWD/fonts/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \; || return 1
+RUN fc-cache -f -v
+
 ENV NODE_VERSION 8.12.0
 # Install Node.js 8 and npm 5
 RUN apt-get update
