@@ -14,6 +14,8 @@ RUN apt-get install libfontconfig1 libfontconfig1-dev -y
 RUN apt-get install -y locales
 RUN locale-gen ar_SA.UTF-8 
 ENV LANG ar_SA.UTF-8
+ENV LANGUAGE ar_SA:en  
+ENV LC_ALL ar_SA.UTF-8
 # Install all Google Web Fonts
 # dependancies: fonts-cantarell, ttf-ubuntu-font-family, git
 RUN apt-get install fonts-cantarell -y 
