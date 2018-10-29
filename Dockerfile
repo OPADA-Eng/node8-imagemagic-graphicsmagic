@@ -11,6 +11,10 @@ RUN apt-get install build-essential chrpath libssl-dev libxft-dev -y
 RUN apt-get install libfreetype6 libfreetype6-dev -y
 RUN apt-get install libjpeg-dev -y
 RUN apt-get install libfontconfig1 libfontconfig1-dev -y 
+ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND teletype
+
+RUN apt-get update -y && apt-get install -y --no-install-recommends apt-utils 
 RUN apt-get install ubuntu-restricted-extras -y
 RUN apt-get install -y locales
 RUN locale-gen ar_SA.UTF-8 
