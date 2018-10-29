@@ -11,6 +11,7 @@ RUN apt-get install build-essential chrpath libssl-dev libxft-dev -y
 RUN apt-get install libfreetype6 libfreetype6-dev -y
 RUN apt-get install libjpeg-dev -y
 RUN apt-get install libfontconfig1 libfontconfig1-dev -y 
+
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBIAN_FRONTEND teletype
 
@@ -21,6 +22,11 @@ RUN locale-gen ar_SA.UTF-8
 ENV LANG ar_SA.UTF-8
 ENV LANGUAGE ar_SA:en  
 ENV LC_ALL ar_SA.UTF-8
+
+RUN wget -q -O /tmp/libpng12.deb http://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb \
+  && sudo dpkg -i /tmp/libpng12.deb \
+  && rm /tmp/libpng12.deb
+  
 # Install all Google Web Fonts
 # dependancies: fonts-cantarell, ttf-ubuntu-font-family, git
 RUN apt-get install fonts-cantarell -y 
