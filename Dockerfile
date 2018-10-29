@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 MAINTAINER OPADA-Eng
 RUN apt-get update -y
 RUN apt-get install imagemagick librsvg2-dev librsvg2-bin -y
