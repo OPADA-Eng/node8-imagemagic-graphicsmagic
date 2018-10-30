@@ -13,8 +13,7 @@ RUN apt-get install libjpeg-dev -y
 RUN apt-get install libfontconfig1 libfontconfig1-dev -y 
 RUN apt-get install -y fonts-hosny-thabit
 RUN apt-get install -y fonts-arabeyes
-RUN apt-add-repository universe
-RUN apt-get install fonts-hosny-amiri
+
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBIAN_FRONTEND teletype
