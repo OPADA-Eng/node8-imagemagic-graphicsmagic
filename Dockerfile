@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 MAINTAINER OPADA-Eng
 RUN apt-get update -y
 RUN apt-get install imagemagick librsvg2-dev librsvg2-bin -y
@@ -43,6 +43,11 @@ RUN apt-get update && \
     apt-get clean && \
     update-ca-certificates -f;
 
+RUN apt-get update && \
+    apt-get install -yq tzdata && \
+    ln -fs /usr/share/zoneinfo/Asia/Amman /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata
+
 # Setup JAVA_HOME -- useful for docker commandline
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 RUN export JAVA_HOME
@@ -75,11 +80,11 @@ RUN echo "Updating font-cache..."
 RUN fc-cache -f > /dev/null
 
 
-ENV NODE_VERSION 8.12.0
+ENV NODE_VERSION 16.13.0
 # Install Node.js 8 and npm 5
 RUN apt-get update
 RUN apt-get -qq update
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash
 RUN apt-get install -y nodejs
 
 RUN apt-get clean && \
